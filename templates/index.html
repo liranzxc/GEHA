@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" dir="rtl">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="static/css/style.css">-->
+
+    <title>Hello, world </title>
+  </head>
+  <body>
+    <h1>Hello, world {{token}}</h1>
+
+  <!-- from start-->
+    <form method="POST" id="chatbot">
+    <div class="container col-3" style="border-style: solid;">
+        <ul class="list-group" id="messages">
+            <li class="list-group-item border-0">היי מה שלומך ? במה אפשר לעזור ??</li>
+        </ul>
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="input" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit" id="button-addon2">Button</button>
+            </div>
+          </div>
+    </div>
+    </form>
+
+    <form method="POST" id="chatbot" action="/test">
+      <input type="hidden" class="form-control" value="{{token}}" name="name" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <button class="btn btn-primary" type="submit" id="send">Button</button>
+
+    </form>
+
+
+
+    <script>
+        $(document).ready(function(){
+
+          $("#chatbot").submit(function(e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+           
+            var form = $(this);
+            var input = $("#input").val();
+            $("#messages").append($("<li class='list-group-item border-0'>").text(input));
+
+            var url = "http://127.0.0.1:5000/chatbot";
+
+            $.post(url,{data:input},function(data,status){
+
+                  AppendToChat(data);
+            });
+
+           
+
+        });
+      });
+
+      function AppendToChat(data)
+      {
+
+        $("#messages").append($("<li class='list-group-item list-group-item-success border-0'>").text("בוט : "+ data));
+      }
+        
+        </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
